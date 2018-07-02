@@ -59,12 +59,12 @@ class MainActivity : AppCompatActivity() {
                 var post: Message? = response?.body()
                 if (response != null) {
                     if (response.isSuccessful) {
-                        output.setText(post!!.firstName + " " + post.email)
-                        Log.d("INFO", "Name " + post!!.firstName + " " + post.email)
+                        output.setText("${post!!.firstName + " " + post.email}")
+                        Log.d("INFO", "Name ${post!!.firstName + " " + post.email}")
                     }
                     else {
                         Toast.makeText(this@MainActivity, "CODE IS " + response.code(), Toast.LENGTH_SHORT).show()
-                        Log.d("CODE1", "CODE IS " + response.code());
+                        Log.d("CODE1", "CODE IS $response.code()");
                     }
                 }
             }
@@ -96,8 +96,8 @@ class MainActivity : AppCompatActivity() {
                         Log.d("JSON", jsonElement.toString())
                     }
                     else {
-                        Toast.makeText(this@MainActivity, "CODE IS " + response.code(), Toast.LENGTH_SHORT).show()
-                        Log.d("CODE1", "CODE IS " + response.code())
+                        Toast.makeText(this@MainActivity, "CODE IS $response.code()", Toast.LENGTH_SHORT).show()
+                        Log.d("CODE1", "CODE IS $response.code()")
                     }
                 }
             }
@@ -124,12 +124,12 @@ class MainActivity : AppCompatActivity() {
             override fun onResponse(call: Call<Message>?, response: Response<Message>?) {
                 if(response != null) {
                     if(response.isSuccessful) {
-                        output.setText(response.body()!!.firstName + " " + response.body()!!.email)
+                        output.setText("${response.body()!!.firstName + " " + response.body()!!.email}")
                         Log.d("JSON", response.body()!!.firstName + " " + response.body()!!.email)
                     }
                     else {
                         Toast.makeText(this@MainActivity, "CODE IS " + response.code(), Toast.LENGTH_SHORT).show()
-                        Log.d("CODE1", "CODE IS " + response.code())
+                        Log.d("CODE1", "CODE IS $response.code()")
                     }
                 }
             }
