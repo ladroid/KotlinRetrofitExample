@@ -142,6 +142,47 @@ data class Message(@SerializedName("id") val id: Int,
 
 They are my constructors. Now we can add new annotation for our MessageAPI.
 
+```kotlin
+@POST("employees/")
+fun NewUser(@Body message: Message) : Call<Message>
+```
+
+Cool. The next step is to add in our **MainActivity** new function which will send info about new user. Let's see how it look's like.
+
+```kotlin
+fun AddNew() {
+        var output = findViewById<TextView>(R.id.Output)
+        val retrofit = Retrofit.Builder()
+                .baseUrl(URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+
+        val messageAPI = retrofit.create(MessageAPI::class.java)
+        val m = Message(8, "Leonel", "Messi", "leomessi@gmail.com")
+
+        val call: Call<Message> = messageAPI.NewUser(m)
+        call.enqueue(object : Callback<Message> {
+            override fun onFailure(call: Call<Message>?, t: Throwable?) {
+                Log.d("FAIL1", t.toString())
+            }
+
+            override fun onResponse(call: Call<Message>?, response: Response<Message>?) {
+                if(response != null) {
+                    if(response.isSuccessful) {
+                        output.setText("${response.body()!!.firstName + " " + response.body()!!.email}")
+                        Log.d("JSON", response.body()!!.firstName + " " + response.body()!!.email)
+                    }
+                    else {
+                        Toast.makeText(this@MainActivity, "CODE IS " + response.code(), Toast.LENGTH_SHORT).show()
+                        Log.d("CODE1", "CODE IS $response.code()")
+                    }
+                }
+            }
+
+        })
+    }
+```
+
 As you can see nothing new.)
 
 I think that's all. Maybe sometimes I will improve my code and this short doc. Thanks.
