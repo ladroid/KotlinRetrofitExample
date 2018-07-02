@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
 
         accept.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
+                AddNew()
                 if(checkId.isChecked) {
                     start()
                 }
@@ -93,6 +94,38 @@ class MainActivity : AppCompatActivity() {
                         val jsonElement: JsonElement? = response?.body()
                         output.setText(jsonElement.toString())
                         Log.d("JSON", jsonElement.toString())
+                    }
+                    else {
+                        Toast.makeText(this@MainActivity, "CODE IS " + response.code(), Toast.LENGTH_SHORT).show()
+                        Log.d("CODE1", "CODE IS " + response.code())
+                    }
+                }
+            }
+
+        })
+    }
+
+    fun AddNew() {
+        var output = findViewById<TextView>(R.id.Output)
+        val retrofit = Retrofit.Builder()
+                .baseUrl(URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+
+        val messageAPI = retrofit.create(MessageAPI::class.java)
+        val m = Message(8, "Leonel", "Messi", "leomessi@gmail.com")
+
+        val call: Call<Message> = messageAPI.NewUser(m)
+        call.enqueue(object : Callback<Message> {
+            override fun onFailure(call: Call<Message>?, t: Throwable?) {
+                Log.d("FAIL1", t.toString())
+            }
+
+            override fun onResponse(call: Call<Message>?, response: Response<Message>?) {
+                if(response != null) {
+                    if(response.isSuccessful) {
+                        output.setText(response.body()!!.firstName + " " + response.body()!!.email)
+                        Log.d("JSON", response.body()!!.firstName + " " + response.body()!!.email)
                     }
                     else {
                         Toast.makeText(this@MainActivity, "CODE IS " + response.code(), Toast.LENGTH_SHORT).show()
