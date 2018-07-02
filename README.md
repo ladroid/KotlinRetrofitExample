@@ -131,7 +131,7 @@ Yesterday I added how to work with **POST** annotation. And now I will talk abou
 
 So let's start.
 
-As you can see I added 2 constructors. 1-without parameters, 2-with three parameters. Why did I do it? Well, I added it for sending data to my server.
+As you can see I added **data class** this class can replace two constructors in Java(one without parameter and another with parameters) which I did in project before. Why did I do it? Well, I added it for sending data to my server.
 
 ```kotlin
 data class Message(@SerializedName("id") val id: Int,
